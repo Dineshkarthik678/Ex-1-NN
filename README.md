@@ -1,7 +1,7 @@
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME:DINESH KARTHIK R</H3>
+<H3>ENTER YOUR REGISTER NO:212224230068</H3>
 <H3>EX. NO.1</H3>
-<H3>DATE</H3>
+<H3>DATE:13-02-2026</H3>
 <H1 ALIGN =CENTER> Introduction to Kaggle and Data preprocessing</H1>
 
 ## AIM:
@@ -37,11 +37,64 @@ STEP 5:Normalizing the data<BR>
 STEP 6:Splitting the data into test and train<BR>
 
 ##  PROGRAM:
-TYPE YOUR CODE HERE
+```
+#Import libraries
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+
+data = pd.read_csv("Churn_Modelling.csv")
+print("First 5 rows:\n", data.head())
+
+print("\nDataset Info:\n")
+print(data.info())
+
+print("\nMissing Values:\n")
+print(data.isnull().sum())
+
+print("\nStatistical Summary:\n")
+print(data.describe())
+
+# RowNumber, CustomerId, and Surname don't help prediction
+data = data.drop(['RowNumber','CustomerId','Surname'], axis=1)
+
+label = LabelEncoder()
+data['Geography'] = label.fit_transform(data['Geography'])
+data['Gender'] = label.fit_transform(data['Gender'])
+
+print("\nAfter Encoding:\n", data.head())
+
+X = data.drop('Exited', axis=1).values   # features
+y = data['Exited'].values                # target
+
+scaler = MinMaxScaler()
+X_scaled = scaler.fit_transform(X)
+print("\nNormalized Features (first 5 rows):\n", X_scaled[:5])
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y, test_size=0.2, random_state=42
+)
+
+print("\nTraining set size:", X_train.shape)
+print("Testing set size:", X_test.shape)
+```
 
 
 ## OUTPUT:
-SHOW YOUR OUTPUT HERE
+
+<img width="733" height="469" alt="image" src="https://github.com/user-attachments/assets/8c273ff8-cf4f-42a6-9b18-ec4c4da837a4" />
+<br><br>
+<img width="496" height="522" alt="image" src="https://github.com/user-attachments/assets/69ea7baf-a1c3-4a06-a991-8afe62205501" />
+<br><br>
+<img width="265" height="381" alt="image" src="https://github.com/user-attachments/assets/80838908-7a7b-47f5-9aa0-c2be50c3ccc3" />
+<br><br>
+<img width="769" height="684" alt="image" src="https://github.com/user-attachments/assets/271360dd-1dbb-48d7-a862-7103925497ed" />
+<br><br>
+<img width="749" height="579" alt="image" src="https://github.com/user-attachments/assets/de6b9021-3b52-4f2c-a0f4-1b8333024913" />
+<br><br>
+<img width="289" height="57" alt="image" src="https://github.com/user-attachments/assets/c18f40d6-c12e-4d75-8df9-e57cb5895b85" />
+<br><br>
 
 
 ## RESULT:
